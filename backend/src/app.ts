@@ -1,5 +1,5 @@
 import express, { type Application } from 'express';
-import Geolite2Service from '#services/Geolite2Service.js';
+import Geolite2Service from '#services/Geolite2Service/Geolite2Service.js';
 import { geoRoutes } from '#routes/GeoRouter.js';
 
 /**

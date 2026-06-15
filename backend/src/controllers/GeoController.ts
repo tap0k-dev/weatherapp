@@ -1,4 +1,4 @@
-import Geolite2Service from '#services/Geolite2Service.js';
+import Geolite2Service from '#services/Geolite2Service/Geolite2Service.js';
 import express from 'express';
 
 /**

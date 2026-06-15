@@ -37,7 +37,10 @@ export default class Geolite2Service {
         );
         Geolite2Service._instance = new Geolite2Service(reader);
       } catch (e) {
-        throw new Error('Невозможно инициализировать БД GeoLite2 City');
+        const error = e as Error;
+        throw new Error(
+          `Невозможно инициализировать БД GeoLite2 City: ${error.message}`,
+        );
       }
     }
   }
