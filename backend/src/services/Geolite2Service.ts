@@ -56,7 +56,7 @@ export default class Geolite2Service {
 
   /**
    * Метод, выдающий информацию об IP-адресе
-   * @param ipAddress - IP-адресс в формате 'x.x.x.x'
+   * @param ipAddress - IPv4-адресс в формате 'x.x.x.x'
    * @returns Данные о городе, стране, долготе, широте
    */
   lookupIp(ipAddress: string): maxmind.CityResponse | null {
