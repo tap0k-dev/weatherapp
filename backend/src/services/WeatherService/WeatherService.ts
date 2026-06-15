@@ -1,12 +1,12 @@
 import type { WeatherRequestType, WeatherResponseType } from './types.js';
-import axios, { type AxiosInstance } from 'axios';
+import axios, { Axios, AxiosError, type AxiosInstance } from 'axios';
 
 /**
  * Сервис для получения данных о текущей погоде по указанному местоположению с помощью OpenMeteoAPI
  * @tutorial https://open-meteo.com/en/docs - ссылка на оффициальную документацию api
  * @example
  * // Инициализация (timeout по умолчанию 3000 мс, apiKey не обязателен)
- * WeatherService.init(timeout = 3000, apiKey = 'rickAstley');
+ * WeatherService.init(3000, 'rickAstley');
  * // Использование в коде
  * const weatherService = WeatherService.getInstance();
  * const weatherInfo = weatherService.fetchWeatherInfo({ latitude: 52, longitude: 67 });
@@ -34,9 +34,11 @@ export default class WeatherService {
     if (apiKey !== undefined) {
       this._apiClient.interceptors.request.use(
         function (config) {
-          if (config.method === 'get') {
-            if (config.params.apiKey === undefined) {
-              config.params.apiKey = apiKey;
+          if (config.method?.toLowerCase() === 'get') {
+            config.params = config.params ?? {};
+
+            if (config.params.apikey === undefined) {
+              config.params.apikey = apiKey;
             }
           }
           return config;
@@ -87,16 +89,30 @@ export default class WeatherService {
     if (this._apiClient === null) {
       return null;
     }
+    try {
+      const response = await this._apiClient.get('/forecast', {
+        params: weatherRequest,
+      });
 
-    const response = await this._apiClient.get('/forecast', {
-      params: weatherRequest,
-    });
+      if (response.status !== 200 || !response.data) {
+        return null;
+      }
 
-    if (response.status !== 200 || !response.data) {
-      return null;
+      const weatherResponse: WeatherResponseType = response.data;
+      return weatherResponse;
+    } catch (e) {
+      const error = e as AxiosError;
+      if (error.response) {
+        console.log('Сервер вернул ошибку');
+        console.log(`Статус: ${error.response.status}`);
+        console.log(`Данные ответа: `, error.response.data);
+        console.log(`Заголовки: ${error.response.headers}`);
+      } else if (error.request) {
+        console.log(`Сервер не ответил: ${error.request}`);
+      } else {
+        console.log(`Ошибка настройки: ${error.message}`);
+      }
     }
-
-    const weatherResponse: WeatherResponseType = response.data;
-    return weatherResponse;
+    return null;
   }
 }
