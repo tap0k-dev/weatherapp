@@ -1,5 +1,5 @@
 import type { WeatherRequestType, WeatherResponseType } from './types.js';
-import axios, { Axios, AxiosError, type AxiosInstance } from 'axios';
+import axios, { AxiosError, type AxiosInstance } from 'axios';
 
 /**
  * Сервис для получения данных о текущей погоде по указанному местоположению с помощью OpenMeteoAPI

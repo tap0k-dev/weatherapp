@@ -23,6 +23,12 @@ export default class GeoController {
     if (req.ip === undefined) {
       return res.status(500).json({ error: 'Айпи не найден' });
     }
-    return res.json(geoService.lookupIp(req.ip ?? ''));
+    const geoData = geoService.lookupIp(req.ip);
+    if (!geoData) {
+      return res
+        .status(500)
+        .json({ error: 'Невозможно определить местоположение по ip' });
+    }
+    return res.status(200).json(geoData);
   };
 }

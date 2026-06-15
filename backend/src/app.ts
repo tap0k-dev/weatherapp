@@ -1,6 +1,8 @@
 import express, { type Application } from 'express';
 import Geolite2Service from '#services/Geolite2Service/Geolite2Service.js';
+import WeatherService from '#services/WeatherService/WeatherService.js';
 import { geoRoutes } from '#routes/GeoRouter.js';
+import { weatherRoutes } from '#routes/WeatherRouter.js';
 
 /**
  * Главное Express приложение.
@@ -16,8 +18,7 @@ export class App {
 
   constructor() {
     this._app = express();
-    // Необходимо для работы с X-Forwaded-For
-    this._app.set('trust proxy', true);
+    this._app.set('trust proxy', true); // Необходимо для работы с X-Forwaded-For
   }
 
   public get app(): Application {
@@ -26,10 +27,12 @@ export class App {
 
   private async initServices() {
     await Geolite2Service.init();
+    WeatherService.init();
   }
 
   private initRoutes() {
     this._app.use('/api/geo', geoRoutes);
+    this._app.use('/api/weather', weatherRoutes);
   }
 
   public async init() {
