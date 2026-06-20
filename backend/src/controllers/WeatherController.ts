@@ -53,7 +53,22 @@ export default class WeatherController {
     const weatherInfo = await weatherService.fetchWeatherInfo({
       longitude: longitude,
       latitude: latitude,
-      current: ['temperature_2m'],
+      current: [
+        'temperature_2m',
+        'relative_humidity_2m',
+        'apparent_temperature',
+        'precipitation',
+        'rain',
+        'showers',
+        'snowfall',
+        'weather_code',
+        'cloud_cover',
+        'pressure_msl',
+        'surface_pressure',
+        'wind_speed_10m',
+        'wind_direction_10m',
+        'wind_gusts_10m',
+      ],
       temperature_unit: 'celsius',
     });
     return res.status(200).json(weatherInfo);
