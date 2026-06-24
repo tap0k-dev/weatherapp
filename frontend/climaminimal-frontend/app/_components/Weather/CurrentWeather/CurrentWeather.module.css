@@ -1,0 +1,33 @@
+.temperature-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sub {
+  font:
+    500 20px/1.5 Inter,
+    sans-serif;
+  color: #000;
+}
+
+.main {
+  font:
+    bold 50px/1.5 Inter,
+    sans-serif;
+  color: #000;
+}
+
+.info {
+  font:
+    500 15px/1.5 Inter,
+    sans-serif;
+  color: #000;
+}
+
+.time {
+  font:
+    15px/1.5 Inter,
+    sans-serif;
+  color: #888;
+}
